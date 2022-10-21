@@ -32,7 +32,7 @@ export default class ComentarioValidator {
       rules.required()
       ]),
    
-      data: schema.Date({}, [
+      data: schema.date({}, [
         rules.required()
       ]),
 

@@ -1,10 +1,11 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Message from 'App/Models/Message'
-import MessageValidator from 'App/Validators/MessageValidator'
+import HttpContext from '@ioc:Adonis/Core/HttpContext'
+import authConfig from '../../../config/auth'
 import Comentario from '../../Models/Comentario'
+import ComentarioValidator from '../../Validators/ComentarioValidator'
 
 
-export default class comentariosController {
+export default class ComentariosController {
 
   public async index({ }: HttpContextContract) {
     const Comentario = await Message.query().preload('user').orderBy('id')
