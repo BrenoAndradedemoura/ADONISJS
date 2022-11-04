@@ -8,31 +8,32 @@ import ComentarioValidator from '../../Validators/ComentarioValidator'
 export default class ComentariosController {
 
   public async index({ }: HttpContextContract) {
-    const Comentario = await Message.query().preload('user').orderBy('id')
+    const comentario = await.query().preload('user').orderBy('id')
     return Comentario
   }
 
   public async store({ request, auth }: HttpContextContract) {
-    const data = await request.validate(MessageValidator)
-    const Comentario = await Message.create({ ...data, userId: auth.user?.id })
+    const data = await request.validate(ComentarioValidator)
+    const comentario = await Comentario.create({ ...data, userId: auth.user?.id })
     return Comentario
   }
 
   public async show({ params, response }: HttpContextContract) {
     try {
-      const Comentario = await Message.findOrFail(params.id)
-      return comentariosController
+      const comentario = await Comentario.findOrFail(params.id)
+      return ComentariosController
     } catch (error) {
       response.status(400).send("Mensagem não encontrada!!!")
     }
   }
 
   public async update({ request, params, response }: HttpContextContract) {
-    const { title, comentario } = await request.validate(MessageValidator)
+    const { name, comentarios, data } = await request.validate(ComentarioValidator)
     try {
-      const comentario = await Message.findOrFail(params.id)
-      comentario.title = title
-      comentario.Message = Message
+      const comentario = await Comentario.findOrFail(params.id)
+      comentario.name = name
+      comentario.comentarios = comentarios
+      comentario.data = data
     } catch (error) {
       response.status(400).send("Mensagem não encontrada!!!")
     }
@@ -40,7 +41,7 @@ export default class ComentariosController {
 
   public async destroy({ params, response }: HttpContextContract) {
     try {
-      const comentario = await Message.findOrFail(params.id)
+      const comentario = await Comentario.findOrFail(params.id)
       await comentario.delete()
       return comentario
     } catch (error) {

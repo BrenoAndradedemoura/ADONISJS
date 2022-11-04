@@ -13,10 +13,10 @@ export default class Comentario extends BaseModel {
   public name: string
 
   @column()
-  public comentario: string
+  public comentarios: string
 
   @column()
-  public data: Date
+  public data: DateTime
 
 
   @column.dateTime({ autoCreate: true })
