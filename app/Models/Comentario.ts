@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import {
    BaseModel,column
 } from '@ioc:Adonis/Lucid/Orm'
-import Server from '@ioc:Adonis/Core/Server'
+
 
 
 export default class Comentario extends BaseModel {
@@ -16,7 +16,7 @@ export default class Comentario extends BaseModel {
   public comentarios: string
 
   @column()
-  public data: DateTime
+  public data: string
 
 
   @column.dateTime({ autoCreate: true })
@@ -27,7 +27,5 @@ export default class Comentario extends BaseModel {
 
   
 }
- Server.middleware.registerNamed({
-   auth: () => import('App/Middleware/Auth')
- })
+ 
  

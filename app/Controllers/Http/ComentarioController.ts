@@ -1,6 +1,4 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import HttpContext from '@ioc:Adonis/Core/HttpContext'
-import authConfig from '../../../config/auth'
 import Comentario from '../../Models/Comentario'
 import ComentarioValidator from '../../Validators/ComentarioValidator'
 
@@ -8,20 +6,20 @@ import ComentarioValidator from '../../Validators/ComentarioValidator'
 export default class ComentariosController {
 
   public async index({ }: HttpContextContract) {
-    const comentario = await.query().preload('user').orderBy('id')
-    return Comentario
+    const comentario = await Comentario.all()
+    return comentario
   }
 
-  public async store({ request, auth }: HttpContextContract) {
+  public async store({ request }: HttpContextContract) {
     const data = await request.validate(ComentarioValidator)
-    const comentario = await Comentario.create({ ...data, userId: auth.user?.id })
-    return Comentario
+    const comentario = await Comentario.create({ ...data })
+    return comentario
   }
 
   public async show({ params, response }: HttpContextContract) {
     try {
       const comentario = await Comentario.findOrFail(params.id)
-      return ComentariosController
+      return comentario
     } catch (error) {
       response.status(400).send("Mensagem não encontrada!!!")
     }
@@ -34,6 +32,8 @@ export default class ComentariosController {
       comentario.name = name
       comentario.comentarios = comentarios
       comentario.data = data
+      comentario.save()
+      return comentario
     } catch (error) {
       response.status(400).send("Mensagem não encontrada!!!")
     }
